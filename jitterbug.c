@@ -43,7 +43,7 @@ void jitterbug(void) {
   char scancode;
 
   // Timing Window
-  time_t window = 20;
+  time_t window = 40;
 
   time_t elapsed;
   time_t m;
