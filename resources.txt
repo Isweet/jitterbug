@@ -1,0 +1,8 @@
+# Write the kernel module (sender)
+* http://stackoverflow.com/questions/33836541/linux-kernel-how-to-capture-a-key-press-and-replace-it-with-another-key
+
+# Perform MitM using arpspoof (receiver)
+* https://su2.info/doc/arpspoof.php
+
+# Setup covert channel
+* https://www.usenix.org/legacy/event/sec06/tech/shah/shah.pdf
