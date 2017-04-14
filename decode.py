@@ -33,7 +33,7 @@ for l in iter(p.stdout.readline, b''):
 
 
     if (i % 8 == 0):
-        print ""
+        print "= " + str(curr_byte).zfill(3) + " => " + chr(curr_byte)
         pw += chr(curr_byte)
         if (chr(curr_byte) == '\0'):
             break;
