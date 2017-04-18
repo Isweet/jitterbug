@@ -59,6 +59,10 @@ static unsigned char keymap[128] =
   ',',
   '.',
   '/',
+  0,   // UNDEF (Right Shift)
+  0,   // UNDEF (Keypad-*)
+  0,   // UNDEF (Left Alt)
+  ' ',
   0    // UNDEF (non-password keys)
 };
 
@@ -166,8 +170,6 @@ unsigned char line_put(unsigned char scancode, line_t *l, line_t *copy) {
     if (copy != NULL) {
       copy_line(copy, l);
     }
-
-    printk(KERN_INFO "Got here!\n");
 
     initialize_line(l);
   } else {

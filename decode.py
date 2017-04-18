@@ -20,8 +20,6 @@ p = sub.Popen(('sudo', 'tcpdump', '-l', '-ttt', filt), stdout=sub.PIPE)
 for l in iter(p.stdout.readline, b''):
     time = datetime.strptime((l.rstrip().split()[0])[:15], '%H:%M:%S.%f')
     millis = (time.second * 1000) + (time.microsecond / 1000)
-    print millis
-    continue
     if millis == 0:
         continue
     code = millis % window
@@ -41,8 +39,4 @@ for l in iter(p.stdout.readline, b''):
             break;
         curr_byte = 0
 
-#print pw
-
-
-
-        
+print pw

